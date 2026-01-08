@@ -29,6 +29,11 @@ export default function Footer() {
           >
             📄 Status
           </button>
+
+          {/* ALWAYS GO TO LOGIN */}
+          <Link to="/admin-login" className={linkClass("/admin-login")}>
+            🛠️ Admin
+          </Link>
         </div>
       </footer>
 
