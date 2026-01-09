@@ -1,0 +1,250 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const API = "http://localhost:5001/admin";
+
+export default function AdminDashboard() {
+  const [complaints, setComplaints] = useState([]);
+  const [statusFilter, setStatusFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [selected, setSelected] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("adminToken");
+    if (!token) navigate("/admin-login");
+  }, []);
+
+  const fetchComplaints = async () => {
+    try {
+      setLoading(true);
+      const token = localStorage.getItem("adminToken");
+
+      const res = await axios.get(`${API}/complaints`, {
+        headers: { Authorization: `Bearer ${token}` },
+        params: { status: statusFilter, category: categoryFilter },
+      });
+    //   console.log(res.data)
+
+      const normalized = res.data.map((c) => ({
+        ...c,
+        status: c.status || "Pending",
+        createdAt: c.timestamp || c.createdAt || new Date(),
+      }));
+
+      setComplaints(normalized);
+    } catch (err) {
+      console.error("Failed to fetch complaints", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchComplaints();
+  }, [statusFilter, categoryFilter]);
+
+  const updateStatus = async (id, status) => {
+    try {
+      const token = localStorage.getItem("adminToken");
+
+      await axios.patch(
+        `${API}/complaints/${id}/status`,
+        { status },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      fetchComplaints();
+    } catch (err) {
+      console.error("Failed to update status", err);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100 px-6 py-10 pb-24">
+      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+
+      {/* Filters */}
+      <div className="flex gap-4 mb-6">
+        <select
+          className="px-4 py-2 rounded-lg border"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+        >
+          <option value="">All Status</option>
+          <option value="Pending">Pending</option>
+          <option value="In Progress">In Progress</option>
+          <option value="Resolved">Resolved</option>
+        </select>
+
+        <select
+          className="px-4 py-2 rounded-lg border"
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+        >
+          <option value="">All Categories</option>
+          <option value="Electricity">Electricity</option>
+          <option value="Road">Road</option>
+        </select>
+      </div>
+
+      <div className="bg-white rounded-xl shadow overflow-x-auto">
+        <table className="w-full text-left">
+          <thead className="bg-gray-200 text-sm">
+            <tr>
+              <th className="px-4 py-3">Complaint ID</th>
+              <th className="px-4 py-3">Category</th>
+              <th className="px-4 py-3">Address</th>
+              <th className="px-4 py-3">Status</th>
+              <th className="px-4 py-3">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="7" className="text-center py-6">
+                  Loading...
+                </td>
+              </tr>
+            ) : complaints.length === 0 ? (
+              <tr>
+                <td colSpan="7" className="text-center py-6 text-gray-500">
+                  No complaints found
+                </td>
+              </tr>
+            ) : (
+              complaints.map((c) => (
+                <tr key={c._id} className="border-t">
+                  <td className="px-4 py-3 font-mono text-sm">
+                    {c.complaintId}
+                    <br />
+                    <small>{new Date(c.createdAt).toLocaleString()}</small>
+                  </td>
+
+                  <td className="px-4 py-3">{c.category}</td>
+
+                  <td className="px-4 py-3 text-sm">
+                    {c.location?.address || "—"}
+                  </td>
+
+                  <td className="px-4 py-3">
+                    <StatusBadge status={c.status} />
+                  </td>
+
+                  <td className="px-4 py-3 flex gap-2">
+                    <button
+                      className="px-3 py-1 bg-blue-500 text-white rounded"
+                      onClick={() => setSelected(c)}
+                    >
+                      View
+                    </button>
+                    
+                    
+                    <select
+                      value={c.status}
+                      onChange={(e) => updateStatus(c._id, e.target.value)}
+                      className="border rounded px-2 py-1"
+                      disabled={c.status === "Resolved"}
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="In Progress">In Progress</option>
+                      <option value="Resolved">Resolved</option>
+                    </select>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+
+      {selected && (
+        <DetailsModal selected={selected} onClose={() => setSelected(null)} />
+      )}
+    </div>
+  );
+}
+
+const StatusBadge = ({ status }) => {
+  const map = {
+    Pending: "bg-yellow-100 text-yellow-800",
+    "In Progress": "bg-blue-100 text-blue-800",
+    Resolved: "bg-green-100 text-green-800",
+  };
+  return (
+    <span className={`px-3 py-1 rounded-full text-sm ${map[status]}`}>
+      {status}
+    </span>
+  );
+};
+
+// Details modal with photo view
+const DetailsModal = ({ selected, onClose }) => (
+  <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+    <div className="bg-white rounded-xl p-6 shadow-lg w-[450px] max-h-[85vh] overflow-auto">
+      <h2 className="text-xl font-bold mb-4">Complaint Details</h2>
+
+      <p><b>ID:</b> {selected.complaintId}</p>
+      <p><b>Category:</b> {selected.category}</p>
+      <p><b>Status:</b> {selected.status}</p>
+      <p><b>Registered:</b> {new Date(selected.createdAt).toLocaleString()}</p>
+
+      <p className="mt-3"><b>Address:</b></p>
+      <p>{selected.location?.address || "—"}</p>
+
+      {selected.location && (
+        <a
+          href={`https://maps.google.com/?q=${selected.location.lat},${selected.location.lng}`}
+          target="_blank"
+          className="text-blue-600 underline"
+        >
+          View Location
+        </a>
+      )}
+
+      {selected.qa?.length > 0 && (
+        <div className="mt-4">
+          <b>Details:</b>
+          <ul className="list-disc pl-5">
+            {selected.qa.map((q, i) => (
+              <li key={i}>
+                <b>{q.question}:</b> {q.answer}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+     
+
+      {/* Show photo if exists */}
+      {selected.photoPath && (
+        <div className="mt-4">
+          <b>Photo:</b>
+          <div className="mt-2">
+            <a
+              href={`http://localhost:5001/${selected.photoPath}`}
+              target="_blank"
+            >
+              <img
+                src={`http://localhost:5001/${selected.photoPath}`}
+                alt="Complaint"
+                className="w-full h-auto max-h-64 object-cover rounded cursor-pointer border"
+              />
+            </a>
+          </div>
+        </div>
+      )}
+
+      <button
+        className="mt-5 w-full py-2 bg-gray-800 text-white rounded"
+        onClick={onClose}
+      >
+        Close
+      </button>
+    </div>
+  </div>
+);
