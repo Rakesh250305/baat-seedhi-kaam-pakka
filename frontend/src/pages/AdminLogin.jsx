@@ -2,8 +2,6 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const API = "http://localhost:5001/admin";
-
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -15,7 +13,7 @@ export default function AdminLogin() {
     setError("");
 
     try {
-      const res = await axios.post(`${API}/login`, {
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/admin/login`, {
         email,
         password,
       });

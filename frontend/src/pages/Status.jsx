@@ -1,8 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
 
-const API = "http://localhost:5001/public";
-
 export default function Status() {
   const [complaintId, setComplaintId] = useState("");
   const [data, setData] = useState(null);
@@ -17,7 +15,7 @@ export default function Status() {
       setError("");
       setData(null);
 
-      const res = await axios.get(`${API}/${complaintId}`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/public/${complaintId}`);
       setData(res.data.data);
     } catch (err) {
       setError("Complaint not found");

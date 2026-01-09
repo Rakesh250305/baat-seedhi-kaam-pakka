@@ -463,8 +463,11 @@ export default function CallBijli() {
     );
 
     axios
-      .post("http://localhost:5001/public/register-with-photo", form)
+      .post(`${import.meta.env.VITE_API_URL}/public/register-with-photo`, form, {
+        withCredentials: true,
+      })
       .then((res) => {
+        const photoPath = res.data.photoPath;
         setComplaintId(res.data.complaintId);
         speak(
           `Aapki complaint register ho gayi hai. Complaint ID ${res.data.complaintId}. Dhanyavaad.`,

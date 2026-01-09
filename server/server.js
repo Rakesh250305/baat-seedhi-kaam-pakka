@@ -12,7 +12,7 @@ dotenv.config();
 const app = express();
 
 // Serve uploads folder
-app.use("/uploads", express.static(path.join(path.resolve(), "uploads")));
+// app.use("/uploads", express.static(path.join(path.resolve(), "uploads")));
 
 app.use(cors({
   origin: "http://localhost:5173",
@@ -34,3 +34,5 @@ connectDB().then(() => {
     console.log(`Server running on port ${process.env.PORT}`);
   });
 });
+
+export default app;

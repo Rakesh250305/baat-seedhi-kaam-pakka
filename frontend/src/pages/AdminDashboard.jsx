@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API = "http://localhost:5001/admin";
-
 export default function AdminDashboard() {
   const [complaints, setComplaints] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
@@ -23,7 +21,7 @@ export default function AdminDashboard() {
       setLoading(true);
       const token = localStorage.getItem("adminToken");
 
-      const res = await axios.get(`${API}/complaints`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/admin/complaints`, {
         headers: { Authorization: `Bearer ${token}` },
         params: { status: statusFilter, category: categoryFilter },
       });
@@ -52,7 +50,7 @@ export default function AdminDashboard() {
       const token = localStorage.getItem("adminToken");
 
       await axios.patch(
-        `${API}/complaints/${id}/status`,
+        `${import.meta.env.VITE_API_URL}/admin/complaints/${id}/status`,
         { status },
         { headers: { Authorization: `Bearer ${token}` } }
       );
