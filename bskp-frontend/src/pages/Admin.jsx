@@ -1,122 +1,168 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const token = localStorage.getItem("adminToken");
+
+const API = "http://localhost:5001/admin";
 
 export default function Admin() {
   const [complaints, setComplaints] = useState([]);
+  const [statusFilter, setStatusFilter] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
-  // Load complaints on mount
   useEffect(() => {
-    const stored =
-      JSON.parse(localStorage.getItem("complaints")) || [];
-    setComplaints(stored);
+    if (!token) {
+      navigate("/admin-login");
+    }
   }, []);
 
-  // Update complaint status
-  const updateStatus = (id, newStatus) => {
-    const updated = complaints.map((c) =>
-      c.id === id ? { ...c, status: newStatus } : c
-    );
+  // Fetch complaints
+  const fetchComplaints = async () => {
+    try {
+      setLoading(true);
 
-    setComplaints(updated);
-    localStorage.setItem("complaints", JSON.stringify(updated));
+      const params = {};
+      if (statusFilter) params.status = statusFilter;
+      if (categoryFilter) params.category = categoryFilter;
+
+      const token = localStorage.getItem("adminToken");
+
+      const res = await axios.get(`${API}/complaints`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params,
+      });
+
+      console.log("Complaints API response:", res.data);
+
+      // setComplaints(res.data);
+      setComplaints(Array.isArray(res.data) ? res.data : []);
+    } catch (err) {
+      console.error("Failed to fetch complaints", err);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Metrics
-  const total = complaints.length;
-  const resolved = complaints.filter(
-    (c) => c.status === "Resolved"
-  ).length;
-  const pending = complaints.filter(
-    (c) => c.status !== "Resolved"
-  ).length;
+  useEffect(() => {
+    fetchComplaints();
+  }, [statusFilter, categoryFilter]);
+
+  // Update status
+  const updateStatus = async (id, status) => {
+    try {
+      await axios.patch(`${API}/complaints/${id}/status`, { status });
+      fetchComplaints(); // refresh
+    } catch (err) {
+      console.error("Failed to update status", err);
+    }
+  };
 
   return (
-    <div className="min-h-screen pb-24 bg-gray-100 px-6 py-10">
-      <h1 className="text-3xl font-bold mb-6">
-        Admin Dashboard
-      </h1>
+    <div className="min-h-screen bg-gray-100 px-6 py-10 pb-24">
+      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
 
-      {/* Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="font-semibold">Total Complaints</h2>
-          <p className="text-3xl mt-2">{total}</p>
-        </div>
+      {/* Filters */}
+      <div className="flex flex-wrap gap-4 mb-6">
+        <select
+          className="px-4 py-2 rounded-lg border"
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+        >
+          <option value="">All Status</option>
+          <option value="registered">Registered</option>
+          <option value="in_progress">In Progress</option>
+          <option value="resolved">Resolved</option>
+        </select>
 
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="font-semibold">Pending</h2>
-          <p className="text-3xl mt-2 text-yellow-600">
-            {pending}
-          </p>
-        </div>
-
-        <div className="bg-white p-6 rounded-xl shadow">
-          <h2 className="font-semibold">Resolved</h2>
-          <p className="text-3xl mt-2 text-green-600">
-            {resolved}
-          </p>
-        </div>
+        <select
+          className="px-4 py-2 rounded-lg border"
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+        >
+          <option value="">All Categories</option>
+          <option value="Sadak Ki Samasya">Road</option>
+          <option value="Bijli Ki Samasya">Electricity</option>
+        </select>
       </div>
 
-      {/* Complaint List */}
-      <div className="mt-10 bg-white p-6 rounded-xl shadow">
-        <h2 className="font-semibold mb-4">
-          Complaint Management
-        </h2>
+      {/* Table */}
+      <div className="bg-white rounded-xl shadow overflow-x-auto">
+        <table className="w-full text-left">
+          <thead className="bg-gray-200 text-sm">
+            <tr>
+              <th className="px-4 py-3">ID</th>
+              <th className="px-4 py-3">Category</th>
+              <th className="px-4 py-3">Status</th>
+              <th className="px-4 py-3">Created</th>
+              <th className="px-4 py-3">Action</th>
+            </tr>
+          </thead>
 
-        {complaints.length === 0 ? (
-          <p className="text-gray-500">
-            No complaints registered yet.
-          </p>
-        ) : (
-          <ul className="space-y-4">
-            {complaints.map((c) => (
-              <li
-                key={c.id}
-                className="border rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
-              >
-                <div>
-                  <p className="font-semibold">
-                    {c.problem}
-                  </p>
-                  <p className="text-sm text-gray-500">
-                    {new Date(
-                      c.timestamp
-                    ).toLocaleString()}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <span
-                    className={`px-3 py-1 rounded-full text-sm font-medium
-                      ${
-                        c.status === "Resolved"
-                          ? "bg-green-100 text-green-700"
-                          : c.status === "In Progress"
-                          ? "bg-blue-100 text-blue-700"
-                          : "bg-yellow-100 text-yellow-700"
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="5" className="text-center py-6">
+                  Loading...
+                </td>
+              </tr>
+            ) : complaints.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="text-center py-6 text-gray-500">
+                  No complaints found
+                </td>
+              </tr>
+            ) : (
+              complaints.map((c) => (
+                <tr key={c._id} className="border-t">
+                  <td className="px-4 py-3 font-mono text-sm">
+                    {c._id.slice(-6)}
+                  </td>
+                  <td className="px-4 py-3">{c.category}</td>
+                  <td className="px-4 py-3">
+                    <StatusBadge status={c.status} />
+                  </td>
+                  <td className="px-4 py-3 text-sm">
+                    {new Date(c.createdAt).toLocaleString()}
+                  </td>
+                  <td className="px-4 py-3">
+                    <select
+                      className="border rounded px-2 py-1"
+                      value={c.status}
+                      onChange={(e) =>
+                        updateStatus(c._id, e.target.value)
                       }
-                    `}
-                  >
-                    {c.status}
-                  </span>
-
-                  <select
-                    value={c.status}
-                    onChange={(e) =>
-                      updateStatus(c.id, e.target.value)
-                    }
-                    className="border px-2 py-1 rounded-md"
-                  >
-                    <option>Pending</option>
-                    <option>In Progress</option>
-                    <option>Resolved</option>
-                  </select>
-                </div>
-              </li>
-            ))}
-          </ul>
-        )}
+                    >
+                      <option value="registered">Registered</option>
+                      <option value="in_progress">In Progress</option>
+                      <option value="resolved">Resolved</option>
+                    </select>
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );
 }
+
+/* UI helpers */
+const StatusBadge = ({ status }) => {
+  const map = {
+    registered: "bg-yellow-100 text-yellow-800",
+    in_progress: "bg-blue-100 text-blue-800",
+    resolved: "bg-green-100 text-green-800",
+  };
+
+  return (
+    <span className={`px-3 py-1 rounded-full text-sm ${map[status]}`}>
+      {status.replace("_", " ")}
+    </span>
+  );
+};

@@ -46,7 +46,7 @@ export default function CallUI({ problem, background, onEnd }) {
       </header>
 
       {/* Controls */}
-      <footer className="relative mb-10 flex justify-center items-center gap-10">
+      <footer className="relative mb-20 flex justify-center items-center gap-10">
         <button
           className="w-14 h-14 rounded-full bg-white/20 flex items-center justify-center"
           onClick={() => setCameraOn(!cameraOn)}
