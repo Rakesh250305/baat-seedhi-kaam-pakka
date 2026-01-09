@@ -7,6 +7,7 @@ import CallBijli from "./components/CallBijli";
 import AdminLogin from "./pages/AdminLogin";
 import Status from "./pages/Status";
 import AdminDashboard from "./pages/AdminDashboard";
+// import PWAInstallButton from "./components/PWAInstallButton";
 
 function AppRoutes() {
   const location = useLocation();
@@ -16,6 +17,8 @@ function AppRoutes() {
 
   return (
     <>
+        {/* <PWAInstallButton/> */}
+
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/services" element={<Services />} />
@@ -38,6 +41,7 @@ function AppRoutes() {
 export default function App() {
   return (
     <>
+    
     <Router>
       <AppRoutes />
     </Router>

@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import PWAInstallButton from "../components/PWAInstallButton";
 
 export default function Home() {
 
   return (
     <div className="min-h-screen pb-24 bg-gradient-to-br from-gray-900 to-black text-white flex flex-col justify-center items-center px-6">
+     <PWAInstallButton/>
       <h1 className="text-4xl lg:text-6xl font-bold mb-6 text-center">
         Baat Seedhi, Kaam Pakka
       </h1>
