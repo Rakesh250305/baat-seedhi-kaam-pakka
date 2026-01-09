@@ -94,16 +94,27 @@ export const registerWithPhoto = async (req, res) => {
     const data = JSON.parse(req.body.data || "{}"); // parse JSON string
 
     const category = data.category || "General";
-
     const complaintId = await generateComplaintId(category);
 
+    let uploadUrl = null;
+    if (file){
+      const blob = await put(
+        `complaints/${Date.now()}-${file.originalname}`,
+        file.buffer,
+        {
+          contentType: file.mimetype,
+          access : "public",
+        }
+      );
+      uploadUrl = blob.url;                                                             
+        }
     const complaintDoc = {
       complaintId,
       category,
       qa: data.qa || [],
       timestamp: data.timestamp || new Date().toISOString(),
       location: data.location || null,
-      photoPath: photoFile?.path || null,
+      photoPath: uploadUrl || null,
       status: data.status || "Pending",
     };
 
@@ -112,6 +123,7 @@ export const registerWithPhoto = async (req, res) => {
     res.status(200).json({
       success: true,
       complaintId: result.complaintId,
+      photoPath: uploadUrl,
       data: result,
     });
   } catch (err) {
