@@ -1,5 +1,5 @@
 const CACHE_NAME = "baat-seedhi-v1";
-const urlsToCache = ["./"];
+const urlsToCache = ["/", "/index.html"];
 
 self.addEventListener("install", e => {
     console.log("Service Worker: Installed");
