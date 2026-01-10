@@ -1,6 +1,5 @@
-
-
 import Complaint from "../models/Complaint.js";
+import { put } from "@vercel/blob";
 
 /** Generate unique complaint ID */
 async function generateComplaintId(category) {
@@ -93,17 +92,22 @@ export const registerWithPhoto = async (req, res) => {
     const photoFile = req.file; // multer file
     const data = JSON.parse(req.body.data || "{}"); // parse JSON string
 
+    if(!photoFile){
+      return res.status(400).json({ error: "Photo file is required" });
+    }
+
     const category = data.category || "General";
     const complaintId = await generateComplaintId(category);
 
     let uploadUrl = null;
-    if (file){
+    if (photoFile){
       const blob = await put(
-        `complaints/${Date.now()}-${file.originalname}`,
-        file.buffer,
+        `complaints/${Date.now()}-${photoFile.originalname}`,
+        photoFile.buffer,
         {
-          contentType: file.mimetype,
+          contentType: photoFile.mimetype,
           access : "public",
+          token: process.env.BLOB_READ_WRITE_TOKEN,
         }
       );
       uploadUrl = blob.url;                                                             

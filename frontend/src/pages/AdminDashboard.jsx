@@ -224,11 +224,11 @@ const DetailsModal = ({ selected, onClose }) => (
           <b>Photo:</b>
           <div className="mt-2">
             <a
-              href={`http://localhost:5001/${selected.photoPath}`}
+              href={`${selected.photoPath}`}
               target="_blank"
             >
               <img
-                src={`http://localhost:5001/${selected.photoPath}`}
+                src={`${selected.photoPath}`}
                 alt="Complaint"
                 className="w-full h-auto max-h-64 object-cover rounded cursor-pointer border"
               />

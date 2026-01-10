@@ -1,7 +1,22 @@
 import { Link } from "react-router-dom";
 import PWAInstallButton from "../components/PWAInstallButton";
+import { useEffect, useState } from "react";
+import PreLoader from "../components/PreLoader";
 
 export default function Home() {
+  const [showPreLoader, setShowPreLoader] = useState(false);
+
+  useEffect(()=>{
+    const hasloaded = localStorage.getItem("hasvisited");
+
+    if (!hasloaded) {
+      setShowPreLoader(true);
+      localStorage.setItem("hasvisited", "true");
+    }
+    
+  }, []);
+
+  if (showPreLoader){ return <Preloader onFinish={() => setShowPreloader(false)} />; }
 
   return (
     <div className="min-h-screen pb-24 bg-gradient-to-br from-gray-900 to-black text-white flex flex-col justify-center items-center px-6">
