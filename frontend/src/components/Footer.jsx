@@ -11,13 +11,13 @@ export default function Footer() {
 
   const linkClass = (path) =>
     `flex flex-col items-center text-sm ${
-      location.pathname === path ? "text-blue-500" : "text-gray-400"
+      location.pathname === path ? "text-white" : "text-teal-400"
     }`;
 
   return (
     <>
-      <footer className="fixed bottom-0 left-0 w-full bg-gray-900 border-t border-gray-700 z-40">
-        <div className="flex text-center justify-around  py-5">
+      <footer className="fixed bottom-0 left-0 w-full bg-teal-900 z-40">
+        <div className="flex text-center justify-around py-5">
           <Link to="/" className={linkClass("/")}>
             <FaHome /> Home
           </Link>
@@ -28,14 +28,13 @@ export default function Footer() {
 
           <Link
           to={"/status"}
-            // onClick={() => setShowStatus(true)}
-            // className="flex flex-col items-center text-sm text-yellow-400"
             className={linkClass("/status")}
           >
             <BiSolidReport /> Status
           </Link>
 
-          <Link to="/admin-login" className={linkClass("/adminLogin")}>
+          <Link to="/admin-login" 
+          className={linkClass("/adminLogin")}>
            <RiAdminFill /> Admin
           </Link>
             

@@ -1,6 +1,5 @@
-
-
 import Complaint from "../models/Complaint.js";
+import { put } from "@vercel/blob";
 
 /** Generate unique complaint ID */
 async function generateComplaintId(category) {
@@ -29,35 +28,35 @@ async function generateComplaintId(category) {
 }
 
 /** Controller: Create complaint without photo */
-export const createComplaint = async (req, res) => {
-  try {
-    const payload = req.body;
-    const category = payload.category || "General";
+// export const createComplaint = async (req, res) => {
+//   try {
+//     const payload = req.body;
+//     const category = payload.category || "General";
 
-    const complaintId = await generateComplaintId(category);
+//     const complaintId = await generateComplaintId(category);
 
-    const doc = {
-      complaintId,
-      category,
-      qa: payload.qa || [],
-      status: payload.status || "Pending",
-      timestamp: payload.timestamp || new Date().toISOString(),
-      location: payload.location || null,
-    };
+//     const doc = {
+//       complaintId,
+//       category,
+//       qa: payload.qa || [],
+//       status: payload.status || "Pending",
+//       timestamp: payload.timestamp || new Date().toISOString(),
+//       location: payload.location || null,
+//     };
 
-    const result = await Complaint.create(doc);
+//     const result = await Complaint.create(doc);
 
-    res.json({
-      success: true,
-      complaintId: result.complaintId,
-      status: result.status,
-      message: `Aapki complaint register ho gayi hai, ID: ${result.complaintId}`,
-    });
-  } catch (err) {
-    console.error("Create Complaint Error:", err);
-    res.status(500).json({ error: "Server error!" });
-  }
-};
+//     res.json({
+//       success: true,
+//       complaintId: result.complaintId,
+//       status: result.status,
+//       message: `Aapki complaint register ho gayi hai, ID: ${result.complaintId}`,
+//     });
+//   } catch (err) {
+//     console.error("Create Complaint Error:", err);
+//     res.status(500).json({ error: "Server error!" });
+//   }
+// };
 
 /** Controller: Get complaint by ID */
 export const getcomplaintbyId = async (req, res) => {
@@ -93,17 +92,22 @@ export const registerWithPhoto = async (req, res) => {
     const photoFile = req.file; // multer file
     const data = JSON.parse(req.body.data || "{}"); // parse JSON string
 
+    if(!photoFile){
+      return res.status(400).json({ error: "Photo file is required" });
+    }
+
     const category = data.category || "General";
     const complaintId = await generateComplaintId(category);
 
     let uploadUrl = null;
-    if (file){
+    if (photoFile){
       const blob = await put(
-        `complaints/${Date.now()}-${file.originalname}`,
-        file.buffer,
+        `complaints/${Date.now()}-${photoFile.originalname}`,
+        photoFile.buffer,
         {
-          contentType: file.mimetype,
+          contentType: photoFile.mimetype,
           access : "public",
+          token: process.env.BLOB_READ_WRITE_TOKEN,
         }
       );
       uploadUrl = blob.url;                                                             
@@ -133,7 +137,7 @@ export const registerWithPhoto = async (req, res) => {
 };
 
 export default {
-  createComplaint,
+  // createComplaint,
   getcomplaintbyId,
   registerWithPhoto,
 };
