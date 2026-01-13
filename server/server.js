@@ -15,7 +15,7 @@ const app = express();
 // app.use("/uploads", express.static(path.join(path.resolve(), "uploads")));
 
 app.use(cors({
-  origin: ["http://localhost:5173", "http://baat-seedhi-kaam-pakka.vercel.app"],
+  origin: ["http://localhost:5173", "https://baat-seedhi-kaam-pakka.vercel.app"],
   methods: ["GET", "POST", "PATCH"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
