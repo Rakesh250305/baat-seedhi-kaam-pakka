@@ -24,7 +24,7 @@ export default function Splash({ onFinish }) {
         ${ fadeOut ? "opacity-0" : "opacity-100"}
       `}
     >
-      <img src={road1} className="w-[70%] mt-[3em] mb-[1em]" />
+      <img src={road1} className="w-[12rem] mt-[3em] mb-[1.2em]" />
 
       <h1 className="text-2xl font-extrabold text-center leading-tight">
         BAAT SEEDHI<br />KAAM PAKKA

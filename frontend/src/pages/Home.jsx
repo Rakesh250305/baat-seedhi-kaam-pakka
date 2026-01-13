@@ -47,26 +47,26 @@ export default function Home() {
   }
 
   return (
-    <div className={`${darkMode ? "bg-gray-900 text-gray-100" : "bg-[#F7F9FC] text-teal-700"} min-h-screen px-6 pt-8 pb-12 flex flex-col items-center transition-colors duration-500`}>
+    <div className={`${darkMode ? "bg-gray-900 text-gray-100" : "bg-[#F7F9FC] text-teal-700"} min-h-screen px-6 pt-2 pb-20 flex flex-col items-center transition-colors duration-500`}>
       
       {/* Top Bar */}
       <div className="w-full flex justify-between items-center mb-4">
         <PWAInstallButton />
-        <button
+        {/* <button
           onClick={() => setDarkMode(!darkMode)}
           className="px-3 py-1 border rounded-lg text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition"
         >
           {darkMode ? "🌞" : "🌙"}
-        </button>
+        </button> */}
       </div>
 
       {/* Hero */}
       <div className="flex flex-col items-center text-center mb-6">
-        <img src={darkMode ? indianEmblemWhite : indianEmblem} alt="Emblem" className="w-16 mb-4" />
-        <h1 className={`${darkMode ? "text-teal-300" : "text-teal-900"} text-3xl font-bold mb-2`}>
+        <img src={darkMode ? indianEmblemWhite : indianEmblem} alt="Emblem" className="w-[15%] mb-4" />
+        <h1 className={`${darkMode ? "text-teal-300" : "text-teal-900"} text-[1.5rem] font-bold mb-2`}>
           बात सीधी, काम पक्का
         </h1>
-        <p className={`${darkMode ? "text-teal-200" : "text-teal-700"} text-sm max-w-md`}>
+        <p className={`${darkMode ? "text-teal-200" : "text-teal-700"} text-[.8rem] max-w-md`}>
           अब नागरिक समस्याओं का डिजिटल समाधान आसान और तेज़
         </p>
       </div>
@@ -76,7 +76,7 @@ export default function Home() {
         <img
           src={carouselImages[carouselIndex].src}
           alt={carouselImages[carouselIndex].label}
-          className="rounded-xl object-cover w-full h-48 shadow-lg"
+          className="rounded-xl object-cover w-full h-[10rem] shadow-lg"
         />
         <p className="mt-2 text-center font-medium">
           {carouselImages[carouselIndex].label}

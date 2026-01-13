@@ -36,6 +36,8 @@ function App() {
             <Route path="/admin-login" element={<AdminLogin/>} />
             <Route path="/dashboard" element={<AdminDashboard/>} />
             <Route path="/complaintlist" element={<ComplaintList/>}/>
+
+            <Route path='/splash' element={<Splash/>} />
           </Routes>
         </LayoutWrapper>
       </BrowserRouter> 
