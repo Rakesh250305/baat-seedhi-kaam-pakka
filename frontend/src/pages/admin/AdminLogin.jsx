@@ -3,13 +3,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import indianEmblem from "../../assets/images/IndianEmblem.svg";
 import indianEmblemWhite from "../../assets/images/IndiaEmblemWhite.svg";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
   const navigate = useNavigate();
+  const {dark} = useTheme();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -30,25 +31,15 @@ export default function AdminLogin() {
   };
 
   return (
-    <div className={`${darkMode ? "bg-gray-900 text-gray-100" : "bg-[#F7F9FC] text-teal-700"} min-h-screen flex flex-col items-center justify-center px-6 transition-colors duration-500`}>
-      
-      {/* Top Bar with Dark Mode Toggle */}
-      <div className="w-full max-w-md flex justify-end mb-6">
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          className="px-3 py-1 border rounded-lg text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-        >
-          {darkMode ? "🌞" : "🌙"}
-        </button>
-      </div>
+    <div className={`${dark ? "bg-gray-900 text-gray-100" : "bg-[#F7F9FC] text-teal-700"} min-h-screen flex flex-col items-center justify-center px-6 transition-colors duration-500`}>
 
       {/* Hero / Emblem */}
       <div className="flex flex-col items-center text-center mb-6">
-        <img src={darkMode ? indianEmblemWhite : indianEmblem} alt="Emblem" className="w-16 mb-4" />
-        <h1 className={`${darkMode ? "text-teal-300" : "text-teal-900"} text-3xl font-bold mb-2`}>
+        <img src={dark ? indianEmblemWhite : indianEmblem} alt="Emblem" className="w-16 mb-4" />
+        <h1 className={`${dark ? "text-teal-300" : "text-teal-900"} text-3xl font-bold mb-2`}>
           Admin Login
         </h1>
-        <p className={`${darkMode ? "text-teal-200" : "text-teal-700"} text-sm max-w-md`}>
+        <p className={`${dark ? "text-teal-200" : "text-teal-700"} text-sm max-w-md`}>
           केवल अधिकृत प्रशासक लॉगिन कर सकते हैं
         </p>
       </div>
@@ -56,7 +47,7 @@ export default function AdminLogin() {
       {/* Login Form */}
       <form
         onSubmit={handleLogin}
-        className={`${darkMode ? "bg-gray-800" : "bg-white"} p-6 rounded-xl shadow-md w-full max-w-md transition-colors duration-500`}
+        className={`${dark ? "bg-gray-800" : "bg-white"} p-6 rounded-xl shadow-md w-full max-w-md transition-colors duration-500`}
       >
         {error && <p className="text-red-500 mb-3">{error}</p>}
 
@@ -80,7 +71,7 @@ export default function AdminLogin() {
 
         <button
           type="submit"
-          className={`${darkMode ? "bg-teal-600 hover:bg-teal-500 text-gray-900" : "bg-teal-700 hover:bg-teal-800 text-white"} w-full py-3 rounded-2xl font-semibold shadow-md transition`}
+          className={`${dark ? "bg-teal-600 hover:bg-teal-500 text-gray-900" : "bg-teal-700 hover:bg-teal-800 text-white"} w-full py-3 rounded-2xl font-semibold shadow-md transition`}
         >
           Login
         </button>

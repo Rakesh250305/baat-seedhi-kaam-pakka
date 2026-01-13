@@ -7,12 +7,15 @@ import indianEmblemWhite from '../assets/images/IndiaEmblemWhite.svg'
 import road from "../assets/images/sadak.jpg";
 import electricity from "../assets/images/village.png";
 import water from "../assets/images/Road2.png";
+import { useTheme } from "../context/ThemeContext";
 
 export default function Home() {
   const navigate = useNavigate();
   const [showPreLoader, setShowPreLoader] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
-  const [darkMode, setDarkMode] = useState(false); // Dark mode state
+  
+  const { dark, toggleTheme } = useTheme();
+
 
   const carouselImages = [
     { src: road, label: "सड़क की समस्या" },
@@ -47,26 +50,30 @@ export default function Home() {
   }
 
   return (
-    <div className={`${darkMode ? "bg-gray-900 text-gray-100" : "bg-[#F7F9FC] text-teal-700"} min-h-screen px-6 pt-2 pb-20 flex flex-col items-center transition-colors duration-500`}>
+    <div className={`${dark ? "dark:bg-gray-900 dark:text-gray-100" : "bg-[#F7F9FC] text-teal-700"} min-h-screen px-6 pt-2 pb-20 flex flex-col items-center transition-colors duration-500`}>
       
       {/* Top Bar */}
       <div className="w-full flex justify-between items-center mb-4">
         <PWAInstallButton />
-        <button
-          onClick={() => setDarkMode(!darkMode)}
-          className="px-3 py-1 border rounded-lg text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition"
-        >
-          {darkMode ? "🌞" : "🌙"}
-        </button>
+    <div className="absolute top-3 right-3">
+      <button
+        onClick={toggleTheme}
+        className="px-3 py-1 border rounded-lg text-sm font-semibold"
+      >
+        {dark ? "🌞 Light" : "🌙 Dark"}
+      </button>
+    </div>
+
       </div>
+
 
       {/* Hero */}
       <div className="flex flex-col items-center text-center mb-6">
-        <img src={darkMode ? indianEmblemWhite : indianEmblem} alt="Emblem" className="w-[15%] mb-4" />
-        <h1 className={`${darkMode ? "text-teal-300" : "text-teal-900"} text-[1.5rem] font-bold mb-2`}>
+        <img src={dark ? indianEmblemWhite : indianEmblem} alt="Emblem" className="w-[15%] mb-4" />
+        <h1 className={`${dark ? "dark:text-teal-300" : "text-teal-900"} text-[1.5rem] font-bold mb-2`}>
           बात सीधी, काम पक्का
         </h1>
-        <p className={`${darkMode ? "text-teal-200" : "text-teal-700"} text-[.8rem] max-w-md`}>
+        <p className={`${dark ? "dark:text-gray-300" : "text-slate-500"} text-[.8rem] max-w-md`}>
           अब नागरिक समस्याओं का डिजिटल समाधान आसान और तेज़
         </p>
       </div>
@@ -85,15 +92,15 @@ export default function Home() {
 
       {/* Stats */}
       <div className="flex justify-center gap-6 mb-10">
-        <Stat number="2,300+" label="शिकायतें दर्ज" darkMode={darkMode} />
-        <Stat number="28" label="शहर कवर" darkMode={darkMode} />
-        <Stat number="450+" label="सक्रिय अधिकारी" darkMode={darkMode} />
+        <Stat number="2,300+" label="शिकायतें दर्ज" darkMode={dark} />
+        <Stat number="28" label="शहर कवर" darkMode={dark} />
+        <Stat number="450+" label="सक्रिय अधिकारी" darkMode={dark} />
       </div>
 
       {/* CTA */}
       <button
         onClick={() => navigate("/services")}
-        className={`${darkMode ? "bg-teal-600 hover:bg-teal-500 text-gray-900" : "bg-teal-700 hover:bg-teal-800 text-white"} w-full max-w-sm py-4 rounded-2xl text-lg font-semibold shadow-md transition`}
+        className={`${dark ? "dark:bg-teal-600 dark:hover:bg-teal-500 dark:text-gray-900" : "bg-teal-700 hover:bg-teal-800 text-white"} w-full max-w-sm py-4 rounded-2xl text-lg font-semibold shadow-md transition`}
       >
         शुरू करें
       </button>
@@ -107,13 +114,13 @@ export default function Home() {
 }
 
 // Stat card
-function Stat({ number, label, darkMode }) {
+function Stat({ number, label, dark }) {
   return (
     <div className="text-center">
-      <p className={`${darkMode ? "text-teal-300" : "text-teal-600"} text-xl font-bold`}>
+      <p className={`${dark ? "dark:text-teal-300" : "text-teal-600"} text-xl font-bold`}>
         {number}
       </p>
-      <p className={`${darkMode ? "text-gray-300" : "text-slate-500"} text-sm`}>
+      <p className={`${dark ? "dark:text-gray-300" : "text-slate-500"} text-sm`}>
         {label}
       </p>
     </div>
