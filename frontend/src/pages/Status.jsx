@@ -35,7 +35,7 @@ export default function Status() {
   
 
   return (
-    <div className="min-h-screen h-[105vh] bg-gray-100 p-6 pt-10">
+    <div className="min-h-screen bg-gray-100 p-6 pt-10 pb-20">
       <h1 className="text-2xl font-bold mb-5">अपनी शिकायत जाने</h1>
 
       <div className="flex gap-3 mb-4">
