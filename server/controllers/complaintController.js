@@ -32,22 +32,60 @@ export const getComplaints = async (req, res) => {
 };
 
 
+// export const updateComplaintStatus = async (req, res) => {
+//   const { id } = req.params;
+//   const { status, reason } = req.body;
+
+//   const allowed = ["Pending", "In Progress", "Resolved"];
+
+//   if (!allowed.includes(status)) {
+//     return res.status(400).json({ error: "Invalid status" });
+//   }
+
+//   await Complaint.updateOne(
+//     { _id: id },
+//     { $set: { status } }
+//   );
+
+//   res.json({ success: true, status });
+// };
+
+
 export const updateComplaintStatus = async (req, res) => {
-  const { id } = req.params;
-  const { status } = req.body;
+  try {
+    const { id } = req.params;
+    const { status, reason } = req.body;
 
-  const allowed = ["Pending", "In Progress", "Resolved"];
+    const allowed = ["Pending", "In Progress", "Resolved"];
+    if (!allowed.includes(status)) {
+      return res.status(400).json({ error: "Invalid status" });
+    }
 
-  if (!allowed.includes(status)) {
-    return res.status(400).json({ error: "Invalid status" });
+    if (!reason || reason.trim() === "") {
+      return res.status(400).json({ error: "Reason is required for status update" });
+    }
+
+    // Find the complaint
+    const complaint = await Complaint.findById(id);
+    if (!complaint) {
+      return res.status(404).json({ error: "Complaint not found" });
+    }
+
+    // Update status and push to statusHistory
+    complaint.status = status;
+    complaint.statusHistory.push({
+      status,
+      reason,
+      timestamp: new Date()
+    });
+
+    await complaint.save();
+
+    res.json({ success: true, status, statusHistory: complaint.statusHistory });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
   }
-
-  await Complaint.updateOne(
-    { _id: id },
-    { $set: { status } }
-  );
-
-  res.json({ success: true, status });
 };
 
  export default {

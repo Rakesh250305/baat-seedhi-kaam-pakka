@@ -18,7 +18,17 @@ const ComplaintSchema = new mongoose.Schema({
     type: String,
     default: "Pending"
   },
-    photoPath: String,
+  statusHistory: {
+    type: [
+      {
+        status: String,
+        reason: String,
+        timestamp: { type: Date, default: Date.now }
+      }
+    ],
+    default: [{ status: "Pending", reason: "Complaint Registered", timestamp: Date.now() }]
+  },
+  photoPath: String,
   timestamp: {
     type: Date,
     default: Date.now

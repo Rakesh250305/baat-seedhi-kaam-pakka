@@ -4,9 +4,11 @@ import Services from "./pages/Services";
 import Footer from "./components/Footer";
 import CallSadak from "./components/CallSadak";
 import CallBijli from "./components/CallBijli";
-import AdminLogin from "./pages/AdminLogin";
+import AdminLogin from "./pages/admin/AdminLogin";
 import Status from "./pages/Status";
-import AdminDashboard from "./pages/AdminDashboard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import Splash from "./components/Splash";
+import ComplaintList from "./pages/admin/ComplaintList";
 
 function App() {
   const LayoutWrapper = ({children})=> {
@@ -33,6 +35,7 @@ function App() {
 
             <Route path="/admin-login" element={<AdminLogin/>} />
             <Route path="/dashboard" element={<AdminDashboard/>} />
+            <Route path="/complaintlist" element={<ComplaintList/>}/>
           </Routes>
         </LayoutWrapper>
       </BrowserRouter> 

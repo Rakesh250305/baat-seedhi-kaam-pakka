@@ -28,35 +28,35 @@ async function generateComplaintId(category) {
 }
 
 /** Controller: Create complaint without photo */
-export const createComplaint = async (req, res) => {
-  try {
-    const payload = req.body;
-    const category = payload.category || "General";
+// export const createComplaint = async (req, res) => {
+//   try {
+//     const payload = req.body;
+//     const category = payload.category || "General";
 
-    const complaintId = await generateComplaintId(category);
+//     const complaintId = await generateComplaintId(category);
 
-    const doc = {
-      complaintId,
-      category,
-      qa: payload.qa || [],
-      status: payload.status || "Pending",
-      timestamp: payload.timestamp || new Date().toISOString(),
-      location: payload.location || null,
-    };
+//     const doc = {
+//       complaintId,
+//       category,
+//       qa: payload.qa || [],
+//       status: payload.status || "Pending",
+//       timestamp: payload.timestamp || new Date().toISOString(),
+//       location: payload.location || null,
+//     };
 
-    const result = await Complaint.create(doc);
+//     const result = await Complaint.create(doc);
 
-    res.json({
-      success: true,
-      complaintId: result.complaintId,
-      status: result.status,
-      message: `Aapki complaint register ho gayi hai, ID: ${result.complaintId}`,
-    });
-  } catch (err) {
-    console.error("Create Complaint Error:", err);
-    res.status(500).json({ error: "Server error!" });
-  }
-};
+//     res.json({
+//       success: true,
+//       complaintId: result.complaintId,
+//       status: result.status,
+//       message: `Aapki complaint register ho gayi hai, ID: ${result.complaintId}`,
+//     });
+//   } catch (err) {
+//     console.error("Create Complaint Error:", err);
+//     res.status(500).json({ error: "Server error!" });
+//   }
+// };
 
 /** Controller: Get complaint by ID */
 export const getcomplaintbyId = async (req, res) => {
@@ -137,7 +137,7 @@ export const registerWithPhoto = async (req, res) => {
 };
 
 export default {
-  createComplaint,
+  // createComplaint,
   getcomplaintbyId,
   registerWithPhoto,
 };
