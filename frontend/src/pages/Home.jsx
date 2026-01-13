@@ -52,12 +52,12 @@ export default function Home() {
       {/* Top Bar */}
       <div className="w-full flex justify-between items-center mb-4">
         <PWAInstallButton />
-        {/* <button
+        <button
           onClick={() => setDarkMode(!darkMode)}
           className="px-3 py-1 border rounded-lg text-sm font-semibold hover:bg-gray-200 dark:hover:bg-gray-700 transition"
         >
           {darkMode ? "🌞" : "🌙"}
-        </button> */}
+        </button>
       </div>
 
       {/* Hero */}
@@ -110,7 +110,7 @@ export default function Home() {
 function Stat({ number, label, darkMode }) {
   return (
     <div className="text-center">
-      <p className={`${darkMode ? "text-teal-300" : "text-indigo-600"} text-xl font-bold`}>
+      <p className={`${darkMode ? "text-teal-300" : "text-teal-600"} text-xl font-bold`}>
         {number}
       </p>
       <p className={`${darkMode ? "text-gray-300" : "text-slate-500"} text-sm`}>

@@ -41,7 +41,7 @@ export default function Splash({ onFinish }) {
         cx="56"
         cy="56"
         r="52"
-        stroke="#3b82f6"
+        stroke="#179898"
         strokeWidth="4"
         fill="none"
         className="animate-progress"

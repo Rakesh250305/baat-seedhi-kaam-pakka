@@ -7,7 +7,6 @@ import CallBijli from "./components/CallBijli";
 import AdminLogin from "./pages/admin/AdminLogin";
 import Status from "./pages/Status";
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import Splash from "./components/Splash";
 import ComplaintList from "./pages/admin/ComplaintList";
 
 function App() {
@@ -36,8 +35,6 @@ function App() {
             <Route path="/admin-login" element={<AdminLogin/>} />
             <Route path="/dashboard" element={<AdminDashboard/>} />
             <Route path="/complaintlist" element={<ComplaintList/>}/>
-
-            <Route path='/splash' element={<Splash/>} />
           </Routes>
         </LayoutWrapper>
       </BrowserRouter> 
