@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import indianEmblem from "../../assets/images/IndianEmblem.svg";
+import { useTheme } from "../../context/ThemeContext";
 
 export default function ComplaintList() {
   const [complaints, setComplaints] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [selected, setSelected] = useState(null);
-  const [statusModal, setStatusModal] = useState(null); // for status update
+  const [statusModal, setStatusModal] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const navigate = useNavigate();
+  const { dark } = useTheme();
 
   useEffect(() => {
     const token = localStorage.getItem("adminToken");
@@ -58,12 +59,12 @@ export default function ComplaintList() {
   };
 
   return (
-    <div className="bg-[#F7F9FC] text-teal-700 min-h-screen flex flex-col items-center px-6 py-10">
+    <div className={`${dark ? "dark:bg-gray-900 dark:text-teal-500" : "bg-gray-100 text-teal-700"} min-h-screen flex flex-col items-center px-6 py-10`}>
 
       {/* Hero */}
       <div className="flex flex-col items-center text-center mb-6">
-        <h1 className="text-teal-900 text-3xl font-bold mb-2">Complaint List</h1>
-        <p className="text-teal-700 text-sm max-w-md">
+        <h1 className="text-3xl font-bold mb-2">Complaint List</h1>
+        <p className="text-gray-300 text-sm max-w-md">
           सभी शिकायतों की सूची और उनके विवरण
         </p>
       </div>
@@ -75,10 +76,10 @@ export default function ComplaintList() {
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
         >
-          <option value="">All Status</option>
-          <option value="Pending">Pending</option>
-          <option value="In Progress">In Progress</option>
-          <option value="Resolved">Resolved</option>
+          <option className="bg-teal-500 text-gray-100" value="">All Status</option>
+          <option className="bg-teal-500 text-gray-100" value="Pending">Pending</option>
+          <option className="bg-teal-500 text-gray-100" value="In Progress">In Progress</option>
+          <option className="bg-teal-500 text-gray-100" value="Resolved">Resolved</option>
         </select>
 
         <select
@@ -86,17 +87,18 @@ export default function ComplaintList() {
           value={categoryFilter}
           onChange={(e) => setCategoryFilter(e.target.value)}
         >
-          <option value="">All Categories</option>
-          <option value="Electricity">Electricity</option>
-          <option value="Road">Road</option>
+          <option className="bg-teal-500 text-gray-100" value="">All Categories</option>
+          <option className="bg-teal-500 text-gray-100" value="Electricity">Electricity</option>
+          <option className="bg-teal-500 text-gray-100" value="Road">Road</option>
         </select>
       </div>
 
       {/* Table */}
-      <div className="w-full max-w-4xl bg-white rounded-xl shadow overflow-x-auto">
+      <div className={`${dark ? "bg-gray-900 text-gray-100 border-teal-500 border-1" : "bg-gray-100 text-teal-700"} w-full max-w-4xl  rounded-xl shadow overflow-x-auto`}>
         <table className="w-full text-left">
           <thead className="bg-teal-100 text-teal-900">
             <tr>
+              <th className="px-4 py-3">#</th>
               <th className="px-4 py-3">Complaint ID</th>
               <th className="px-4 py-3">Category</th>
               <th className="px-4 py-3">Address</th>
@@ -119,8 +121,9 @@ export default function ComplaintList() {
                 </td>
               </tr>
             ) : (
-              complaints.map((c) => (
+              complaints.map((c,i) => (
                 <tr key={c._id} className="border-t">
+                  <td className="px-4 py-3">{i + 1}</td>
                   <td className="px-4 py-3 font-mono text-sm">{c.complaintId}</td>
                   <td className="px-4 py-3">{c.category}</td>
                   <td className="px-4 py-3">{c.location?.address || "—"}</td>
@@ -136,7 +139,7 @@ export default function ComplaintList() {
                     </button>
 
                     <button
-                      className="px-3 py-1 border border-teal-700 rounded text-teal-700 hover:bg-teal-100"
+                      className="px-3 py-1 border border-teal-700 rounded text-gray-100 hover:bg-teal-100"
                       onClick={() => setStatusModal(c)}
                     >
                       Update Status

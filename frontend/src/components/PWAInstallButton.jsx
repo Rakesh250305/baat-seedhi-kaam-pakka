@@ -19,7 +19,7 @@ export default function PWAInstallButton() {
   if (!deferredPrompt) return null;
 
   return (
-    <div className="fixed top-0 left-0 w-full bg-blue-600 text-white text-center py-3 z-[9999] shadow-lg">
+    <div className="fixed top-0 left-0 w-full bg-teal-600 text-white text-center py-3 z-[9999] shadow-lg">
      
       <button
         onClick={() => {
