@@ -50,7 +50,7 @@ export default function Home() {
   }
 
   return (
-    <div className={`${dark ? "dark:bg-gray-900 dark:text-gray-100" : "bg-[#F7F9FC] text-teal-700"} min-h-screen px-6 pt-2 pb-20 flex flex-col items-center transition-colors duration-500`}>
+    <div className={`${dark ? "bg-gray-900 text-gray-100" : "bg-[#F7F9FC] text-teal-700"} dark:bg-gray-900 dark:text-gray-100 min-h-screen px-6 pt-2 pb-20 flex flex-col items-center transition-colors duration-500`}>
       
       {/* Top Bar */}
       <div className="w-full flex justify-between items-center mb-4">
@@ -70,10 +70,10 @@ export default function Home() {
       {/* Hero */}
       <div className="flex flex-col items-center text-center mb-6">
         <img src={dark ? indianEmblemWhite : indianEmblem} alt="Emblem" className="w-[15%] mb-4" />
-        <h1 className={`${dark ? "dark:text-teal-300" : "text-teal-900"} text-[1.5rem] font-bold mb-2`}>
+        <h1 className={`${dark ? "text-teal-300" : "text-teal-900"} dark:text-teal-300 text-[1.5rem] font-bold mb-2`}>
           बात सीधी, काम पक्का
         </h1>
-        <p className={`${dark ? "dark:text-gray-300" : "text-slate-500"} text-[.8rem] max-w-md`}>
+        <p className={`${dark ? "text-gray-300" : "text-slate-500"} dark:text-gray-300 text-[.8rem] max-w-md`}>
           अब नागरिक समस्याओं का डिजिटल समाधान आसान और तेज़
         </p>
       </div>
@@ -100,7 +100,7 @@ export default function Home() {
       {/* CTA */}
       <button
         onClick={() => navigate("/services")}
-        className={`${dark ? "dark:bg-teal-600 dark:hover:bg-teal-500 dark:text-gray-900" : "bg-teal-700 hover:bg-teal-800 text-white"} w-full max-w-sm py-4 rounded-2xl text-lg font-semibold shadow-md transition`}
+        className={`${dark ? "bg-teal-600 hover:bg-teal-500 text-gray-900" : "bg-teal-700 hover:bg-teal-800 text-white"} dark:bg-teal-600 dark:hover:bg-teal-500 dark:text-gray-900 w-full max-w-sm py-4 rounded-2xl text-lg font-semibold shadow-md transition`}
       >
         शुरू करें
       </button>
@@ -117,10 +117,10 @@ export default function Home() {
 function Stat({ number, label, dark }) {
   return (
     <div className="text-center">
-      <p className={`${dark ? "dark:text-teal-300" : "text-teal-600"} text-xl font-bold`}>
+      <p className={`${dark ? "text-teal-300" : "text-teal-600"} dark:text-teal-300 text-xl font-bold`}>
         {number}
       </p>
-      <p className={`${dark ? "dark:text-gray-300" : "text-slate-500"} text-sm`}>
+      <p className={`${dark ? "text-gray-300" : "text-slate-500"} dark:text-gray-300 text-sm`}>
         {label}
       </p>
     </div>

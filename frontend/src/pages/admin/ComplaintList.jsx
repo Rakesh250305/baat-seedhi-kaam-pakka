@@ -59,7 +59,7 @@ export default function ComplaintList() {
   };
 
   return (
-    <div className={`${dark ? "dark:bg-gray-900 dark:text-teal-500" : "bg-gray-100 text-teal-700"} min-h-screen flex flex-col items-center px-6 py-10`}>
+    <div className={`${dark ? "bg-gray-900 text-teal-500" : "bg-gray-100 text-teal-700"} "dark:bg-gray-900 dark:text-teal-500 min-h-screen flex flex-col items-center px-6 py-10`}>
 
       {/* Hero */}
       <div className="flex flex-col items-center text-center mb-6">
@@ -94,7 +94,7 @@ export default function ComplaintList() {
       </div>
 
       {/* Table */}
-      <div className={`${dark ? "bg-gray-900 text-gray-100 border-teal-500 border-1" : "bg-gray-100 text-teal-700"} w-full max-w-4xl  rounded-xl shadow overflow-x-auto`}>
+      <div className={`${dark ? "bg-gray-900 text-gray-100 border-teal-500" : "bg-gray-100 text-teal-700"} dark:bg-gray-900 dark:text-gray-100 dark:border-teal-500 border-1 w-full max-w-4xl  rounded-xl shadow overflow-x-auto`}>
         <table className="w-full text-left">
           <thead className="bg-teal-100 text-teal-900">
             <tr>
