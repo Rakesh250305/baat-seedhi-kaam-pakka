@@ -5,6 +5,11 @@
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
+  "permissions": {
+    "geolocation": {},
+    "camera": {},
+    "microphone": {}
+  },
   "icons": [
     {
       "src": "./icons/android/android-48-48.png",
