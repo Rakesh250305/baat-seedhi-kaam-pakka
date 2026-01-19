@@ -11,7 +11,7 @@ import { useTheme } from "../context/ThemeContext";
 
 export default function Home() {
   const navigate = useNavigate();
-  const [showPreLoader, setShowPreLoader] = useState(false);
+  // const [showPreLoader, setShowPreLoader] = useState(false);
   const [carouselIndex, setCarouselIndex] = useState(0);
   
   const { dark, toggleTheme } = useTheme();
@@ -30,7 +30,7 @@ export default function Home() {
     const lastUsed = sessionStorage.getItem("last-used");
 
     if (!hasSession || !lastUsed || now - lastUsed > 1000 * 60 * 2) {
-      setShowPreLoader(true);
+      //setShowPreLoader(true);
       sessionStorage.setItem("session-started", "true");
     }
 
@@ -45,9 +45,9 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  if (showPreLoader) {
-    return <Splash onFinish={() => setShowPreLoader(false)} />;
-  }
+  // if (showPreLoader) {
+  //   return <Splash onFinish={() => setShowPreLoader(false)} />;
+  // }
 
   return (
     <div className={`${dark ? "bg-gray-900 text-gray-100" : "bg-[#F7F9FC] text-teal-700"} dark:bg-gray-900 dark:text-gray-100 min-h-screen px-6 pt-2 pb-20 flex flex-col items-center transition-colors duration-500`}>
