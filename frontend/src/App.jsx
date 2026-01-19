@@ -8,8 +8,11 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import Status from "./pages/Status";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ComplaintList from "./pages/admin/ComplaintList";
+import PermissionGate from "./components/PermissionGate";
+import { useState } from "react";
 
 function App() {
+  const [permissionsGranted, setPermissionsGranted] = useState(false);
   const LayoutWrapper = ({children})=> {
     const pathname = useLocation();
 
@@ -24,7 +27,10 @@ function App() {
   return(
     <>
       <BrowserRouter>
-        <LayoutWrapper>
+       {!permissionsGranted ? (
+        <PermissionGate onGranted={() => setPermissionsGranted(true)} />
+       ): (
+         <LayoutWrapper>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/services" element={<Services />} />
@@ -37,6 +43,7 @@ function App() {
             <Route path="/complaintlist" element={<ComplaintList/>}/>
           </Routes>
         </LayoutWrapper>
+       )}
       </BrowserRouter> 
     </>
   )
