@@ -8,11 +8,13 @@ import AdminLogin from "./pages/admin/AdminLogin";
 import Status from "./pages/Status";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import ComplaintList from "./pages/admin/ComplaintList";
-import PermissionGate from "./components/PermissionGate";
 import { useState } from "react";
+import PermissionManager from "./components/PermissionManager";
+import Splash from "./components/Splash";
 
 function App() {
-  const [permissionsGranted, setPermissionsGranted] = useState(false);
+  const [showSplash, setShowSplash] = useState(true);
+  const [ready, setReady] = useState(false);
   const LayoutWrapper = ({children})=> {
     const pathname = useLocation();
 
@@ -26,9 +28,10 @@ function App() {
   };
   return(
     <>
+    {showSplash && <Splash onFinish={()=> setShowSplash(false)}/>}
       <BrowserRouter>
-       {!permissionsGranted ? (
-        <PermissionGate onGranted={() => setPermissionsGranted(true)} />
+       {!showSplash && !ready ? (
+        <PermissionManager onCompleted={() => setReady(true)} />
        ): (
          <LayoutWrapper>
           <Routes>
