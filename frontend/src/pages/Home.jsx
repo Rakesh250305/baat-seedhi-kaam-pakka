@@ -24,18 +24,18 @@ export default function Home() {
   ];
 
   // Splash + Session logic
-  useEffect(() => {
-    const now = Date.now();
-    const hasSession = sessionStorage.getItem("session-started");
-    const lastUsed = sessionStorage.getItem("last-used");
+  // useEffect(() => {
+  //   const now = Date.now();
+  //   const hasSession = sessionStorage.getItem("session-started");
+  //   const lastUsed = sessionStorage.getItem("last-used");
 
-    if (!hasSession || !lastUsed || now - lastUsed > 1000 * 60 * 2) {
-      //setShowPreLoader(true);
-      sessionStorage.setItem("session-started", "true");
-    }
+  //   if (!hasSession || !lastUsed || now - lastUsed > 1000 * 60 * 2) {
+  //     //setShowPreLoader(true);
+  //     sessionStorage.setItem("session-started", "true");
+  //   }
 
-    sessionStorage.setItem("last-used", now);
-  }, []);
+  //   sessionStorage.setItem("last-used", now);
+  // }, []);
 
   // Auto carousel every 3s
   useEffect(() => {
@@ -50,6 +50,7 @@ export default function Home() {
   // }
 
   return (
+    <>
     <div className={`${dark ? "bg-gray-900 text-gray-100" : "bg-[#F7F9FC] text-teal-700"} dark:bg-gray-900 dark:text-gray-100 min-h-screen px-6 pt-2 pb-20 flex flex-col items-center transition-colors duration-500`}>
       
       {/* Top Bar */}
@@ -110,6 +111,8 @@ export default function Home() {
         नागरिक सेवा के लिए 🇮🇳
       </p>
     </div>
+
+    </>
   );
 }
 
