@@ -21,7 +21,7 @@ export default function Status() {
 
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/public/${complaintId}`);
       setData(res.data.data);
-      console.log(res.data.data);
+      console.log(res.data);
     } catch (err) {
       setError("Complaint not found");
     } finally {
@@ -37,7 +37,7 @@ export default function Status() {
   
 
   return (
-    <div className={`${dark ? "bg-gray-900 text-teal-500" :  "text-teal-800 bg-gray-100" } dark:bg-gray-900 dark:text-teal-500 min-h-screen p-6 pt-10 pb-20`}>
+    <div className={`${dark ? "bg-gray-900 text-teal-500" :  "text-teal-800 bg-gray-100" } min-h-screen p-6 pt-10 pb-20`}>
       <h1 className="text-2xl font-bold mb-5">अपनी शिकायत जाने</h1>
 
       <div className="flex gap-3 mb-4">
@@ -61,7 +61,7 @@ export default function Status() {
       {error && <p className="text-red-600">{error}</p>}
 
      {data && (
-  <div className={`${dark ? "bg-gray-900 text-teal-500" : "bg-gray-100 text-teal-800"} dark:bg-gray-900 dark:text-teal-500 min-h-screen py-5 space-y-5`}>
+  <div className={`${dark ? "bg-gray-900 text-teal-500" : "bg-gray-100 text-teal-800"} min-h-screen py-5 space-y-5`}>
 
     {/* Header */}
     <h2 className="text-lg font-semibold">
@@ -69,9 +69,9 @@ export default function Status() {
     </h2>
 
     {/* Info Card */}
-    <div className={`${dark ? "bg-gray-800 text-gray-300" : "bg-white text-gray-700"} dark:bg-gray-800 dark:text-gray-300 rounded-xl p-4 shadow border border-gray-100 space-y-2`}>
+    <div className={`${dark ? "bg-gray-800 text-gray-300" : "bg-white text-gray-700"} rounded-xl p-4 shadow border border-gray-100 space-y-2`}>
       <p className={`text-xs`}>टिकट आईडी</p>
-      <p className={`${dark ? "text-teal-500" : "text-teal-800" } dark:text-teal-500 font-semibold`}>#{data.complaintId}</p>
+      <p className={`${dark ? "text-teal-500" : "text-teal-800" } font-semibold`}>#{data.complaintId}</p>
 
       <p className="text-sm flex items-center gap-1">
         {data.category === "Electricity" ? "⚡ बिजली से जुड़ी समस्या" : "🛣️ सड़क से जुड़ी समस्या"}
@@ -89,8 +89,8 @@ export default function Status() {
     </div>
 
     {/* Status Progress */}
-    <div className={`${dark ? "bg-gray-800 text-gray-300" : "bg-white text-gray-700"} dark:bg-gray-800 dark:text-gray-300 rounded-xl p-4 shadow border border-gray-100`}>
-      <p className={`${dark ? "text-teal-500" : "text-teal-800" } dark:text-teal-500 font-semibold mb-3`}>स्थिति प्रगति</p>
+    <div className={`${dark ? "bg-gray-800 text-gray-300" : "bg-white text-gray-700"} rounded-xl p-4 shadow border border-gray-100`}>
+      <p className={`${dark ? "text-teal-500" : "text-teal-800" } font-semibold mb-3`}>स्थिति प्रगति</p>
 
       <div className="flex flex-col gap-3">
         {statusSteps.map((step, idx) => {
@@ -111,8 +111,8 @@ export default function Status() {
 
     {/* Officer Notes */}
     {data.officerNote && (
-      <div className={`${dark ? "bg-gray-800 text-gray-300" : "bg-white text-gray-700"} dark:bg-gray-800 dark:text-gray-300 rounded-xl p-4 shadow border border-gray-100`}>
-        <p className={`${dark ? "text-teal-500" : "text-teal-800" } dark:text-teal-500 font-semibold mb-1`}>अधिकारी टिप्पणी</p>
+      <div className={`${dark ? "bg-gray-800 text-gray-300" : "bg-white text-gray-700"} rounded-xl p-4 shadow border border-gray-100`}>
+        <p className={`${dark ? "text-teal-500" : "text-teal-800" }  font-semibold mb-1`}>अधिकारी टिप्पणी</p>
         <p className="text-sm">
           {data.officerNote}
         </p>
@@ -121,8 +121,8 @@ export default function Status() {
 
     {/* QA Responses */}
     {data.qa?.length > 0 && (
-      <div className={`${dark ? "bg-gray-800 text-gray-300" : "bg-white text-gray-700"} dark:bg-gray-800 dark:text-gray-300 rounded-xl p-4 shadow border border-gray-100 space-y-2`}>
-        <p className={`${dark ? "text-teal-500" : "text-teal-800" } dark:text-teal-500 font-semibold`}>यूजर जानकारी</p>
+      <div className={`${dark ? "bg-gray-800 text-gray-300" : "bg-white text-gray-700"} rounded-xl p-4 shadow border border-gray-100 space-y-2`}>
+        <p className={`${dark ? "text-teal-500" : "text-teal-800" } font-semibold`}>यूजर जानकारी</p>
         <ul className="list-disc pl-5 text-sm space-y-1">
           {data.qa.map((item, i) => (
             <li key={i}>

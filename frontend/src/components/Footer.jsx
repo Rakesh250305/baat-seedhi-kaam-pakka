@@ -34,7 +34,7 @@ export default function Footer() {
           </Link>
 
           <Link to="/admin-login" 
-          className={linkClass("/adminLogin")}>
+          className={linkClass("/admin-login")}>
            <RiAdminFill /> Admin
           </Link>
             
