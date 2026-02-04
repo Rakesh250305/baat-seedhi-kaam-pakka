@@ -7,6 +7,6 @@ const router = express.Router();
 
 router.post("/login", adminLogin);
 router.get("/complaints", adminAuth, getComplaints);
-router.patch("/complaints/:id/status", adminAuth, updateComplaintStatus);
+router.put("/complaints/:id/status", adminAuth, updateComplaintStatus);
 
 export default router;

@@ -76,6 +76,7 @@ export const getcomplaintbyId = async (req, res) => {
         status: complaint.status,
         timestamp: complaint.timestamp,
         location: complaint.location,
+        statusHistory : complaint.statusHistory || "",
         qa: complaint.qa || [],
         photoPath: complaint.photoPath || null,
       },

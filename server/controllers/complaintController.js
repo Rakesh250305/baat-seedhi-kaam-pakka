@@ -18,6 +18,7 @@ export const getComplaints = async (req, res) => {
       complaintId: c.complaintId,
       category: c.category,
       status: c.status,
+      statusHistory : c.statusHistory || "",
       timestamp: c.timestamp,
       qa: c.qa || [],
       location: c.location || null,
@@ -31,26 +32,7 @@ export const getComplaints = async (req, res) => {
   }
 };
 
-
-// export const updateComplaintStatus = async (req, res) => {
-//   const { id } = req.params;
-//   const { status, reason } = req.body;
-
-//   const allowed = ["Pending", "In Progress", "Resolved"];
-
-//   if (!allowed.includes(status)) {
-//     return res.status(400).json({ error: "Invalid status" });
-//   }
-
-//   await Complaint.updateOne(
-//     { _id: id },
-//     { $set: { status } }
-//   );
-
-//   res.json({ success: true, status });
-// };
-
-
+// Update Status
 export const updateComplaintStatus = async (req, res) => {
   try {
     const { id } = req.params;
@@ -80,8 +62,7 @@ export const updateComplaintStatus = async (req, res) => {
     });
 
     await complaint.save();
-
-    res.json({ success: true, status, statusHistory: complaint.statusHistory });
+    res.status(200).json({ success: true, status, statusHistory: complaint.statusHistory });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });
