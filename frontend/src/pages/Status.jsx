@@ -320,7 +320,15 @@ export default function Status() {
                               ? "text-gray-500"
                               : "text-gray-400"
                           }`}>
-                          {step}
+                          {step === "pending" ? (
+                            "शिकायत दर्ज"
+                          ) : (
+                            step === "in progress" ? (
+                              "काम जारी है"
+                            ) : (
+                              "समस्या हल हो गई"
+                            )
+                          )}
                         </p>
                         {active && activeIndex === idx && latestHistory && (
                           <p
@@ -447,7 +455,7 @@ export default function Status() {
               <p className={`${dark ? "text-teal-500" : "text-teal-700"} font-semibold mb-4`}>
                 पूरी स्थिति ट्रैकिंग
               </p>
-              <p className={`${dark ? "bg-gray-500" : "bg-gray-400"} hover:bg-gray-600 rounded-lg flex px-5 py-2`} onClick={() => { setShowTrack(false) }}>Close</p>
+              <p className={`${dark ? "bg-gray-500" : "bg-gray-400"} hover:bg-gray-600 rounded-lg flex px-5 py-2`} onClick={() => { setShowTrack(false) }}>बंद करे</p>
             </div>
 
             <div className="flex flex-col gap-4">

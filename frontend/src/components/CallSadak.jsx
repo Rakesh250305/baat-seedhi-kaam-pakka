@@ -75,8 +75,8 @@ export default function CallBijli() {
         (answer) => {
           asking.current = false;
           silenceCounter.current = 0;
-          console.log("question:" , questions_dataset[i]);
-          console.log("answer:" , answer);
+          // console.log("question:" , questions_dataset[i]);
+          // console.log("answer:" , answer);
           setAnswers((prev) => [...prev, answer]);
           setStep((prev) => prev + 1);
         },
