@@ -24,7 +24,7 @@ export default function Status() {
 
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/public/${complaintId}`);
       setData(res.data.data);
-      console.log(res.data);
+      // console.log(res.data);
     } catch (err) {
       setError("शिकायत नहीं मिली");
     } finally {
@@ -64,7 +64,7 @@ export default function Status() {
       : null;
 
   const isInProgress =
-    latestHistory?.status?.toLowerCase() === "in progress";
+    latestHistory?.status?.toLowerCase() === "in progress" || "resolved";
 
 
   return (
@@ -324,7 +324,7 @@ export default function Status() {
                             "शिकायत दर्ज"
                           ) : (
                             step === "in progress" ? (
-                              "काम जारी है"
+                              "कार् जारी है"
                             ) : (
                               "समस्या हल हो गई"
                             )
