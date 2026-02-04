@@ -78,7 +78,7 @@ export default function AdminDashboard() {
       <div className="w-full max-w-md space-y-4 mb-6">
         {cardData.slice(1).map((bar, idx) => (
           <div key={idx}>
-            <div className="flex justify-between mb-1 text-sm font-medium text-teal-900">
+            <div className={`${dark ? "text-teal-400" : "text-teal-900"} flex justify-between mb-1 text-sm font-medium`}>
               <span>{bar.label}</span>
               <span>{bar.value}</span>
             </div>

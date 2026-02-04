@@ -1,0 +1,21 @@
+    {latestHistory && (
+      <div className={`${dark ? "bg-gray-800 text-gray-300" : "bg-white text-gray-700"} rounded-xl p-4 shadow border border-gray-100`}>
+        <p className={`${dark ? "text-teal-500" : "text-teal-800" }  font-semibold mb-1`}>अधिकारी टिप्पणी</p>
+        <p><b>Status:</b> {latestHistory.status}</p>
+    <p><b>Reason:</b> {latestHistory.reason}</p>
+    <p className="text-xs text-gray-500">
+      {new Date(latestHistory.timestamp).toLocaleString()}
+    </p>
+      </div>
+    )}
+
+
+
+
+      const latestHistory =
+  data?.statusHistory?.length > 0
+    ? data.statusHistory[data.statusHistory.length - 1]
+    : null;
+
+
+              onKeyDown={(e)=> {e.key === "Enter" && (e.preventDefault(), fetchStatus())}}

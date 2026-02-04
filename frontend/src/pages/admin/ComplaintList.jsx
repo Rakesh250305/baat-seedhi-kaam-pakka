@@ -98,7 +98,7 @@ export default function ComplaintList() {
         <table className="w-full text-left">
           <thead className="bg-teal-100 text-teal-900">
             <tr>
-              <th className="px-4 py-3">#</th>
+              <th className="px-4 py-3">S.No.</th>
               <th className="px-4 py-3">Complaint ID</th>
               <th className="px-4 py-3">Category</th>
               <th className="px-4 py-3">Address</th>
