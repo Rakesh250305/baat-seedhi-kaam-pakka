@@ -258,19 +258,34 @@ const StatusModal = ({ data, onClose, updateStatus, theme }) => {
   const [otherReason, setOtherReason] = useState("");
 
    const reasonOptions = {
-    "Pending": ["Complaint Registered"],
-    "In Progress": ["Assigned to department", "Under Review", "Investigation started", "other"],
-    "Resolved": ["Fixed/Solved", "Issue Closed", "Action Taken", "other"],
+    "Pending": [
+      "शिकायत दर्ज हो गयी है - Complaint Registered"
+    ],
+    "In Progress": [
+      " विभाग नियुक्त - Assigned to Department", 
+      " समीक्षाधीन - Under Review", 
+      "जाँच शुरु - Investigation started", 
+      "अन्य - Other"
+    ],
+    "Resolved": [
+      "हल किया गया - Fixed/Solved", 
+      "शिकायत बंद - Issue Closed", 
+      "कार्रवाई की - Action Taken", 
+      "अन्य - Other"],
   };
+
+  const isOtherSelected = reason.toLowerCase().includes("other");
 
   const handleUpdate = () => {
     if (!reason) return alert("Please select a reason");
+     if (isOtherSelected && !otherReason.trim())
+      return alert("Please enter reason");
 
     // Send status + reason to backend
     updateStatus(
       data._id,
       newStatus, 
-      reason === "other" ? otherReason : reason
+      isOtherSelected ? otherReason : reason
     );
   };
 
@@ -309,7 +324,7 @@ const StatusModal = ({ data, onClose, updateStatus, theme }) => {
         </select>
 
         {/* Other reason input */}
-        {reason === "Other" && (
+        {isOtherSelected && (
           <input
             type="text"
             value={otherReason}

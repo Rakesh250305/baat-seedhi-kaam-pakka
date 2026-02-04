@@ -108,7 +108,7 @@ export const registerWithPhoto = async (req, res) => {
         {
           contentType: photoFile.mimetype,
           access : "public",
-          token: process.env.BLOB_READ_WRITE_TOKEN,
+          token: process.env.BLOB_READ_WRITE_TOKEN_READ_WRITE_TOKEN,
         }
       );
       uploadUrl = blob.url;                                                             
