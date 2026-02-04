@@ -4,8 +4,6 @@ import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import adminRoutes from './routes/adminRoutes.js';
 import publicRoutes from './routes/publicRoutes.js';
-import path from 'path';
-
 
 dotenv.config();
 
@@ -13,7 +11,7 @@ const app = express();
 
 app.use(cors({
   origin: ["http://localhost:5173", "https://baat-seedhi-kaam-pakka.vercel.app"],
-  methods: ["GET", "POST", "PATCH"],
+  methods: ["GET", "POST", "PATCH", "PUT"],
   allowedHeaders: ["Content-Type", "Authorization"],
   credentials: true,
 }));

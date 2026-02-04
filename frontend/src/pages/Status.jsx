@@ -21,7 +21,7 @@ export default function Status() {
 
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/public/${complaintId}`);
       setData(res.data.data);
-      console.log(res.data.data);
+      console.log(res.data);
     } catch (err) {
       setError("शिकायत नहीं मिली");
     } finally {
