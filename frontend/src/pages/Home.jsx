@@ -107,9 +107,9 @@ export default function Home() {
       </button>
 
       {/* Footer Info */}
-      <p className="text-xs text-center mt-6 text-gray-500">
+      {/* <p className="text-xs text-center mt-6 text-gray-500">
         नागरिक सेवा के लिए 🇮🇳
-      </p>
+      </p> */}
     </div>
 
     </>
